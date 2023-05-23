@@ -99,7 +99,7 @@ jobs:
       #   uses: codecov/codecov-action@v3
 
       - name: Update cassette submodule on merge into master
-        # if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.ref == 'refs/heads/master'
+        if: always()
         run: |
           cd tests/cassettes
           git config --local user.email "action@github.com"
