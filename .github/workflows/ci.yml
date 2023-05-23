@@ -79,7 +79,7 @@ jobs:
           git submodule update --init --recursive
 
       - name: Echo
-        run: echo "Hello World"
+        run: echo "test test test"
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2

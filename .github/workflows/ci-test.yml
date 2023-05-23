@@ -7,7 +7,7 @@ on:
     branches: [ master, stable ]
 
 concurrency:
-  group: ${{ format('ci-{0}', github.head_ref && format('pr-{0}', github.event.pull_request.number) || github.sha) }}
+  group: 'meow'
   cancel-in-progress: ${{ github.event_name == 'pull_request_target' }}
 
 jobs:
