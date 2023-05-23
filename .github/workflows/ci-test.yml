@@ -102,15 +102,16 @@ jobs:
         if: always()
         run: |
           cd tests/cassettes
+          git checkout main
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
           git commit -am "Updated cassettes submodule"
-          git push
+          git push origin main
           cd ../..
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -am "Updated main repo's submodules"
-          git push
+          git push origin ${{ github.head_ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
