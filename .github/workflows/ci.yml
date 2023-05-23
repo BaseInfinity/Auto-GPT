@@ -5,6 +5,8 @@ on:
     branches: [ master ]
   pull_request_target:
     branches: [ master, stable ]
+  pull_request:
+    branches: [ master, stable ]
 
 concurrency:
   group: ${{ format('ci-{0}', github.head_ref && format('pr-{0}', github.event.pull_request.number) || github.sha) }}
