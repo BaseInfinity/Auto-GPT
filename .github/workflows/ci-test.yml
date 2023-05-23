@@ -103,14 +103,12 @@ jobs:
         run: |
           cd tests/cassettes
           git checkout main
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
           git add .
           git commit -am "Updated cassettes submodule"
           git push origin main
           cd ../..
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
           git commit -am "Updated main repo's submodules"
           git push origin ${{ github.head_ref }}
         env:
