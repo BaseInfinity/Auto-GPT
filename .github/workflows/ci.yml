@@ -71,8 +71,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref }}
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          submodules: 'recursive'
+
+      - name: Checkout correct branch and submodules
+        run: |
+          git checkout ${{ github.event.pull_request.head.ref }}
+          git submodule update --init --recursive
 
       - name: Echo
         run: echo "Hello World"
@@ -99,8 +103,8 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
 
-      - name: Stage new files and commit
-        id: stage_files
+      - name: Update cassette submodule on merge into master
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.ref == 'refs/heads/master'
         run: |
           git add tests
           git diff --cached --quiet tests && echo "No changes to commit" && exit 0
@@ -139,3 +143,16 @@ jobs:
       - name: Fail if new PR created
         if:  ${{ env.TIMESTAMP_COMMIT != null }}
         run: exit 1
+          cd tests/cassettes
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -am "Updated cassettes submodule"
+          git push
+          cd ../..
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -am "Updated main repo's submodules"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

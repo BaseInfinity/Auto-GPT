@@ -8,6 +8,13 @@ from autogpt.config import Config
 from autogpt.llm import ApiManager
 from autogpt.workspace import Workspace
 
+
+@pytest.fixture(scope="module")
+def vcr_cassette_dir(request):
+    test_name = os.path.splitext(request.node.name)[0]
+    return os.path.join("tests/cassettes", test_name)
+
+
 pytest_plugins = ["tests.integration.agent_factory"]
 
 PROXY = os.environ.get("PROXY")
