@@ -3,8 +3,6 @@ name: Python CI
 on:
   push:
     branches: [ master ]
-  pull_request_target:
-    branches: [ master, stable ]
   pull_request:
     branches: [ master, stable ]
 
